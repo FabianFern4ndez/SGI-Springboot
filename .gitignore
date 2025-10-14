@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Archivos de configuración - AGREGAR ESTAS LÍNEAS
+application.properties
+application.yml
+application.yaml
+*.properties
