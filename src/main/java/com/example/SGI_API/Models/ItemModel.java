@@ -1,4 +1,4 @@
-package com.example.SGI_API.models;
+package com.example.SGI_API.Models;
 
 
 import jakarta.persistence.Entity;
@@ -20,4 +20,5 @@ public class ItemModel {
     private long id;
     private String descripcion;
     private float price;
+    private String prueba;
 }

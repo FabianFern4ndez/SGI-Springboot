@@ -1,6 +1,6 @@
 package com.example.SGI_API.Controller;
-import com.example.SGI_API.models.ItemModel;
 import com.example.SGI_API.Repositories.RepositorioItem;
+import com.example.SGI_API.Models.ItemModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/items")
+@CrossOrigin(origins = "*")
 public class ItemController {
     @Autowired
     private RepositorioItem repositorioItem;
