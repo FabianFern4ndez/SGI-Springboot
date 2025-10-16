@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/items")
@@ -20,7 +21,15 @@ public class ItemController {
     public ItemModel crearItem(@RequestBody ItemModel item) {
         return repositorioItem.save(item);
     }
-
+/*
+Ejemplo json
+{
+  "name": "amborguesa",
+  "description": "con queso",
+  "quantity": 2,
+  "category": "maxideli"
+}
+ */
     // Obtener todos los items
     @GetMapping
     public List<ItemModel> obtenerItems() {
@@ -29,7 +38,7 @@ public class ItemController {
 
     // Obtener item por id
     @GetMapping("/{id}")
-    public ResponseEntity<ItemModel> obtenerItemPorId(@PathVariable Long id) {
+    public ResponseEntity<ItemModel> obtenerItemPorId(@PathVariable UUID id) {
         Optional<ItemModel> itemOpt = repositorioItem.findById(id);
         if (itemOpt.isPresent()) {
             return ResponseEntity.ok(itemOpt.get());
@@ -40,12 +49,14 @@ public class ItemController {
 
     // Actualizar item
     @PutMapping("/{id}")
-    public ResponseEntity<ItemModel> actualizarItem(@PathVariable Long id, @RequestBody ItemModel itemActualizado) {
+    public ResponseEntity<ItemModel> actualizarItem(@PathVariable UUID id, @RequestBody ItemModel itemActualizado) {
         Optional<ItemModel> itemOpt = repositorioItem.findById(id);
         if (itemOpt.isPresent()) {
             ItemModel item = itemOpt.get();
-            item.setDescripcion(itemActualizado.getDescripcion());
-            item.setPrice(itemActualizado.getPrice());
+            item.setName(itemActualizado.getName());
+            item.setDescription(itemActualizado.getDescription());
+            item.setQuantity(itemActualizado.getQuantity());
+            item.setCategory(itemActualizado.getCategory());
             repositorioItem.save(item);
             return ResponseEntity.ok(item);
         } else {
@@ -55,7 +66,7 @@ public class ItemController {
 
     // Eliminar item
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarItem(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarItem(@PathVariable UUID id) {
         if (repositorioItem.existsById(id)) {
             repositorioItem.deleteById(id);
             return ResponseEntity.noContent().build();

@@ -1,6 +1,5 @@
 package com.example.SGI_API.Models;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,26 +9,26 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemModel {
-    
+public class UserModel {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    private String name;
-    private String description;
-    private int quantity;
-    private String category;
-    @Column(updatable=false)
+    private String username;
+    private String password;
+    private String role;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime created_at;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime updated_at;
+
 
     // Se ejecuta antes de persistir el objeto
     @PrePersist
@@ -43,9 +42,10 @@ public class ItemModel {
     protected void onUpdate() {
         this.updated_at = LocalDateTime.now();
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserModel user;
+    // Relación bidireccional con ItemModel
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemModel> items;
 }
+
+
 
